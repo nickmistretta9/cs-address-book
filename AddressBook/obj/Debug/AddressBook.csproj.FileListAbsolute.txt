@@ -1,0 +1,7 @@
+C:\Users\Nicholas Mistretta\Desktop\C#\Address Book\AddressBook\bin\Debug\AddressBook.exe.config
+C:\Users\Nicholas Mistretta\Desktop\C#\Address Book\AddressBook\bin\Debug\AddressBook.exe
+C:\Users\Nicholas Mistretta\Desktop\C#\Address Book\AddressBook\bin\Debug\AddressBook.pdb
+C:\Users\Nicholas Mistretta\Desktop\C#\Address Book\AddressBook\obj\Debug\AddressBook.csprojResolveAssemblyReference.cache
+C:\Users\Nicholas Mistretta\Desktop\C#\Address Book\AddressBook\obj\Debug\AddressBook.csproj.CoreCompileInputs.cache
+C:\Users\Nicholas Mistretta\Desktop\C#\Address Book\AddressBook\obj\Debug\AddressBook.exe
+C:\Users\Nicholas Mistretta\Desktop\C#\Address Book\AddressBook\obj\Debug\AddressBook.pdb
