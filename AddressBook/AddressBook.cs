@@ -19,7 +19,7 @@ namespace AddressBook
             string[] people = System.IO.File.ReadAllLines(fileURL);
             foreach (var person in people)
             {
-                System.Console.WriteLine(person);
+                Console.WriteLine(person);
             }
         }
 
@@ -39,9 +39,10 @@ namespace AddressBook
             return true;
         }
 
-        public void RemovePerson(Person person)
+        public void RemovePerson()
         {
-            _people.Remove(person);
+            var personToRemove = FindPerson();
+            _people.Remove(personToRemove);
         }
 
         public void UpdatePerson()
@@ -51,7 +52,7 @@ namespace AddressBook
 
         private Person FindPerson()
         {
-            Person personToReturn;
+            Person personToReturn = new Person();
             List<string> options = new List<string>() {
                 "1) Enter a first name",
                 "2) Enter a last name",
@@ -66,10 +67,23 @@ namespace AddressBook
             {
                 default:
                 case "1":
-                    Console.Write("Enter the First Name to search by: ");
+                    Console.Write("Enter the first name to search by: ");
                     string firstName = Console.ReadLine();
-                    List<Person> people = _people.Where(p => p.FirstName == firstName);
-                    string numberToWrite = people.Count == 1 ? "person" : "people";
+                    IEnumerable<Person> people = _people.Where(p => p.FirstName == firstName);
+                    Console.WriteLine("{0} person(s) found with the first name {1}. Which one would you like to look up?", people.Count(), firstName);
+                    Dictionary<int, Person> peopleLookup = new Dictionary<int, Person>();
+                    var count = 0;
+                    foreach (var person in people)
+                    {
+                        peopleLookup.Add(count, person);
+                        Console.WriteLine("{1}", person);
+                        count++;
+                    }
+                    var validInput = int.TryParse(Console.ReadLine(), out int personChoice);
+                    if(validInput)
+                    {
+                        var foundPerson = peopleLookup.TryGetValue(personChoice, out personToReturn);
+                    }
                     break;
                 case "2":
                     break;
