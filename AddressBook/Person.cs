@@ -9,7 +9,7 @@
         public int ID { get; set; }
         static int _count = 1;
 
-        public Person(string firstName, string lastName, string streetAddress, string city, string state, int zip, string phoneNumber)
+        public Person(string firstName, string lastName, string streetAddress, string city, string state, string zip, string phoneNumber)
         {
             FirstName = firstName;
             LastName = lastName;

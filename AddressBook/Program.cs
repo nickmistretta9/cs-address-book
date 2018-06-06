@@ -10,10 +10,7 @@ namespace AddressBook
         static void Main(string[] args)
         {
             var addressBook = new AddressBook();
-            //addressBook.AddPerson(new Person("Nick", "Mistretta", "307 Cassa Loop", "Holtsville", "NY", 11742, "6313353056"));
             addressBook.ReadFromFile();
-            addressBook.AddPerson(new Person("Nick", "three", "asd", "asd", "NY", 12324, "asdas"));
-            //addressBook.ReadFromFile();
             addressBook.RemovePerson();
         }
     }

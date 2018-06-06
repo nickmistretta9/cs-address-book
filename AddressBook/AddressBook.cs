@@ -19,7 +19,7 @@ namespace AddressBook
             string[] people = System.IO.File.ReadAllLines(fileURL);
             foreach (var person in people)
             {
-                Console.WriteLine(person);
+                _people.Add(ParsePersonInfo(person));
             }
         }
 
@@ -76,11 +76,11 @@ namespace AddressBook
                     foreach (var person in people)
                     {
                         peopleLookup.Add(count, person);
-                        Console.WriteLine("{1}", person);
+                        Console.WriteLine(person);
                         count++;
                     }
                     var validInput = int.TryParse(Console.ReadLine(), out int personChoice);
-                    if(validInput)
+                    if (validInput)
                     {
                         var foundPerson = peopleLookup.TryGetValue(personChoice, out personToReturn);
                     }
@@ -93,6 +93,21 @@ namespace AddressBook
                     break;
             }
             return personToReturn;
+        }
+        private Person ParsePersonInfo(string person)
+        {
+            var personInfo = person.Split('|');
+            var personName = personInfo[0].Split(',');
+            string firstName = personName[1].Trim();
+            string lastName = personName[0];
+            var fullAddress = personInfo[1].Split(',');
+            string streetName = fullAddress[0];
+            string city = fullAddress[1];
+            var stateZip = fullAddress[2].Split(' ');
+            string state = stateZip[0];
+            string zip = stateZip[1].Trim();
+            string phoneNumber = personInfo[2];
+            return new Person(firstName, lastName, streetName, city, state, zip, phoneNumber);
         }
     }
 }
