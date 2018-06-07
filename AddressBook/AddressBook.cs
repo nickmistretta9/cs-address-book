@@ -42,7 +42,10 @@ namespace AddressBook
         public void RemovePerson()
         {
             var personToRemove = FindPerson();
-            _people.Remove(personToRemove);
+            if (personToRemove != null)
+            {
+                _people.Remove(personToRemove);
+            }
         }
 
         public void UpdatePerson()
@@ -53,6 +56,7 @@ namespace AddressBook
         private Person FindPerson()
         {
             Person personToReturn = new Person();
+            IEnumerable<Person> people;
             List<string> options = new List<string>() {
                 "1) Enter a first name",
                 "2) Enter a last name",
@@ -69,27 +73,34 @@ namespace AddressBook
                 case "1":
                     Console.Write("Enter the first name to search by: ");
                     string firstName = Console.ReadLine();
-                    IEnumerable<Person> people = _people.Where(p => p.FirstName == firstName);
+                    people = _people.Where(p => p.FirstName == firstName);
                     Console.WriteLine("{0} person(s) found with the first name {1}. Which one would you like to look up?", people.Count(), firstName);
-                    Dictionary<int, Person> peopleLookup = new Dictionary<int, Person>();
-                    var count = 0;
-                    foreach (var person in people)
-                    {
-                        peopleLookup.Add(count, person);
-                        Console.WriteLine(person);
-                        count++;
-                    }
-                    var validInput = int.TryParse(Console.ReadLine(), out int personChoice);
-                    if (validInput)
-                    {
-                        var foundPerson = peopleLookup.TryGetValue(personChoice, out personToReturn);
-                    }
+                    personToReturn = SearchAddressBook(people);
+                    Console.WriteLine("{0} {1} has been found! What would you like to do now?", personToReturn.FirstName, personToReturn.LastName);
                     break;
                 case "2":
+                    Console.Write("Enter the last name to search by: ");
+                    string lastName = Console.ReadLine();
+                    people = _people.Where(p => p.LastName == lastName);
+                    Console.WriteLine("{0} person(s) found with the last name {1}. Which one would you like to look up?", people.Count(), lastName);
+                    personToReturn = SearchAddressBook(people);
+                    Console.WriteLine("{0} {1} has been found! What would you like to do now?", personToReturn.FirstName, personToReturn.LastName);
                     break;
                 case "3":
+                    Console.Write("Enter the address to search by: ");
+                    string address = Console.ReadLine();
+                    people = _people.Where(p => p.Address == address);
+                    Console.WriteLine("{0} person(s) found with the address {1}. Which one would you like to look up?", people.Count(), address);
+                    personToReturn = SearchAddressBook(people);
+                    Console.WriteLine("{0} {1} has been found! What would you like to do now?", personToReturn.FirstName, personToReturn.LastName);
                     break;
                 case "4":
+                    Console.Write("Enter the phone number to search by: ");
+                    string phoneNumber = Console.ReadLine();
+                    people = _people.Where(p => p.PhoneNumber == phoneNumber);
+                    Console.WriteLine("{0} person(s) found with the phone number {1}. Which one would you like to look up?", people.Count(), phoneNumber);
+                    personToReturn = SearchAddressBook(people);
+                    Console.WriteLine("{0} {1} has been found! What would you like to do now?", personToReturn.FirstName, personToReturn.LastName);
                     break;
             }
             return personToReturn;
@@ -99,15 +110,57 @@ namespace AddressBook
             var personInfo = person.Split('|');
             var personName = personInfo[0].Split(',');
             string firstName = personName[1].Trim();
-            string lastName = personName[0];
+            string lastName = personName[0].Trim();
             var fullAddress = personInfo[1].Split(',');
-            string streetName = fullAddress[0];
-            string city = fullAddress[1];
+            string streetName = fullAddress[0].Trim();
+            string city = fullAddress[1].Trim();
             var stateZip = fullAddress[2].Split(' ');
-            string state = stateZip[0];
+            string state = stateZip[0].Trim();
             string zip = stateZip[1].Trim();
-            string phoneNumber = personInfo[2];
+            string phoneNumber = personInfo[2].Trim();
             return new Person(firstName, lastName, streetName, city, state, zip, phoneNumber);
+        }
+
+        private Person SearchAddressBook(IEnumerable<Person> people)
+        {
+            var personToReturn = new Person();
+            Dictionary<int, Person> peopleLookup = new Dictionary<int, Person>();
+            bool personHasBeenFound = false;
+            var count = 0;
+            foreach (var person in people)
+            {
+                peopleLookup.Add(count, person);
+                Console.WriteLine(person);
+                count++;
+            }
+            while (!personHasBeenFound)
+            {
+                try
+                {
+                    var validInput = int.TryParse(Console.ReadLine(), out int personChoice);
+                    if (validInput)
+                    {
+                        var foundPerson = peopleLookup.TryGetValue(personChoice - 1, out personToReturn);
+                        if (foundPerson)
+                        {
+                            personHasBeenFound = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Input not recognized. Please try again.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Could not recognize input, please try again.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Invalid input: " + ex.Message);
+                }
+            }
+            return personToReturn;
         }
     }
 }

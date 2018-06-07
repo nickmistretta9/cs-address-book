@@ -9,9 +9,8 @@ namespace AddressBook
     {
         static void Main(string[] args)
         {
-            var addressBook = new AddressBook();
-            addressBook.ReadFromFile();
-            addressBook.RemovePerson();
+            BookLogic bookLogic = new BookLogic();
+            bookLogic.Run();
         }
     }
 }
