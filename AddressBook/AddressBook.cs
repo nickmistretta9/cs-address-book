@@ -23,9 +23,24 @@ namespace AddressBook
             }
         }
 
-        public bool AddPerson(Person personToAdd)
+        public bool AddPerson()
         {
-            foreach(var person in _people)
+            Console.Write("Enter the new person's first name: ");
+            string firstName = Console.ReadLine();
+            Console.Write("Enter the new person's last name: ");
+            string lastName = Console.ReadLine();
+            Console.Write("Enter the new person's street address: ");
+            string streetAddress = Console.ReadLine();
+            Console.Write("Enter the new person's city: ");
+            string city = Console.ReadLine();
+            Console.Write("Enter the new person's state: ");
+            string state = Console.ReadLine();
+            Console.Write("Enter the new person's zip code: ");
+            string zip = Console.ReadLine();
+            Console.Write("Enter the new person's phone number: ");
+            string phoneNumber = Console.ReadLine();
+            Person personToAdd = new Person(firstName, lastName, streetAddress, city, state, zip, phoneNumber);
+            foreach (var person in _people)
             {
                 if(_people.Contains(person))
                 {
@@ -50,7 +65,8 @@ namespace AddressBook
 
         public void UpdatePerson()
         {
-
+            Person personToUpdate = FindPerson();
+            UpdatePersonInfo(personToUpdate);
         }
 
         private Person FindPerson()
@@ -74,33 +90,58 @@ namespace AddressBook
                     Console.Write("Enter the first name to search by: ");
                     string firstName = Console.ReadLine();
                     people = _people.Where(p => p.FirstName == firstName);
-                    Console.WriteLine("{0} person(s) found with the first name {1}. Which one would you like to look up?", people.Count(), firstName);
-                    personToReturn = SearchAddressBook(people);
-                    Console.WriteLine("{0} {1} has been found! What would you like to do now?", personToReturn.FirstName, personToReturn.LastName);
+                    if (people.Count() == 0)
+                    {
+                        Console.WriteLine("Sorry, no one with the first name {0} was found. Try a different search.", firstName);
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} person(s) found with the first name {1}. Which one would you like to look up?", people.Count(), firstName);
+                        personToReturn = SearchAddressBook(people);
+                        Console.WriteLine("{0} {1} has been found! What would you like to do now?", personToReturn.FirstName, personToReturn.LastName);
+                    }
                     break;
                 case "2":
                     Console.Write("Enter the last name to search by: ");
                     string lastName = Console.ReadLine();
                     people = _people.Where(p => p.LastName == lastName);
-                    Console.WriteLine("{0} person(s) found with the last name {1}. Which one would you like to look up?", people.Count(), lastName);
-                    personToReturn = SearchAddressBook(people);
-                    Console.WriteLine("{0} {1} has been found! What would you like to do now?", personToReturn.FirstName, personToReturn.LastName);
+                    if (people.Count() == 0)
+                    {
+                        Console.WriteLine("Sorry, no one with the last name {0} was found. Try a different search.", lastName);
+                    } else
+                    {
+                        Console.WriteLine("{0} person(s) found with the last name {1}. Which one would you like to look up?", people.Count(), lastName);
+                        personToReturn = SearchAddressBook(people);
+                        Console.WriteLine("{0} {1} has been found! What would you like to do now?", personToReturn.FirstName, personToReturn.LastName);
+                    }
                     break;
                 case "3":
                     Console.Write("Enter the address to search by: ");
                     string address = Console.ReadLine();
                     people = _people.Where(p => p.Address == address);
-                    Console.WriteLine("{0} person(s) found with the address {1}. Which one would you like to look up?", people.Count(), address);
-                    personToReturn = SearchAddressBook(people);
-                    Console.WriteLine("{0} {1} has been found! What would you like to do now?", personToReturn.FirstName, personToReturn.LastName);
+                    if (people.Count() == 0)
+                    {
+                        Console.WriteLine("Sorry, no one with the address {0} was found. Try a different search.", address);
+                    } else
+                    {
+                        Console.WriteLine("{0} person(s) found with the address {1}. Which one would you like to look up?", people.Count(), address);
+                        personToReturn = SearchAddressBook(people);
+                        Console.WriteLine("{0} {1} has been found! What would you like to do now?", personToReturn.FirstName, personToReturn.LastName);
+                    }
                     break;
                 case "4":
                     Console.Write("Enter the phone number to search by: ");
                     string phoneNumber = Console.ReadLine();
                     people = _people.Where(p => p.PhoneNumber == phoneNumber);
-                    Console.WriteLine("{0} person(s) found with the phone number {1}. Which one would you like to look up?", people.Count(), phoneNumber);
-                    personToReturn = SearchAddressBook(people);
-                    Console.WriteLine("{0} {1} has been found! What would you like to do now?", personToReturn.FirstName, personToReturn.LastName);
+                    if (people.Count() == 0)
+                    {
+                        Console.WriteLine("Sorry, no one with the phone number {0} was found. Try a different search.", phoneNumber);
+                    } else
+                    {
+                        Console.WriteLine("{0} person(s) found with the phone number {1}. Which one would you like to look up?", people.Count(), phoneNumber);
+                        personToReturn = SearchAddressBook(people);
+                        Console.WriteLine("{0} {1} has been found! What would you like to do now?", personToReturn.FirstName, personToReturn.LastName);
+                    }
                     break;
             }
             return personToReturn;
@@ -161,6 +202,11 @@ namespace AddressBook
                 }
             }
             return personToReturn;
+        }
+
+        private bool UpdatePersonInfo(Person person)
+        {
+            return true;
         }
     }
 }

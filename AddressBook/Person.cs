@@ -18,10 +18,7 @@
             ID = _count;
             _count++;
         }
-        public Person()
-        {
-
-        }
+        public Person() {}
 
         public override string ToString()
         {

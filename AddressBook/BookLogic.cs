@@ -19,9 +19,35 @@ namespace AddressBook
         }
         public void Run()
         {
+            bool finished = false;
             Console.WriteLine("--- Welcome to the Address Book App. Please choose from the options below to get started! ---");
-            foreach(var option in _options)
-                Console.WriteLine(option);
+            while(!finished)
+            {
+                Console.WriteLine("What would you like to do?");
+                foreach(var option in _options)
+                    Console.WriteLine(option);
+                var input = Console.ReadLine();
+                switch(input)
+                {
+                    default:
+                    case "1":
+                        break;
+                    case "2":
+                        _addressBook.AddPerson();
+                        break;
+                    case "3":
+                        _addressBook.RemovePerson();
+                        break;
+                    case "4":
+                        _addressBook.UpdatePerson();
+                        break;
+                    case "5":
+                        Console.WriteLine("--- Thank you for using the Address Book App. ---");
+                        finished = true;
+                        break;
+                }
+            }
+
         }
     }
 }
