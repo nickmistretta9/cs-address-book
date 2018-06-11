@@ -23,7 +23,7 @@ namespace AddressBook
             }
         }
 
-        public bool AddPerson()
+        public void AddPerson()
         {
             Console.Write("Enter the new person's first name: ");
             string firstName = Console.ReadLine();
@@ -42,16 +42,20 @@ namespace AddressBook
             Person personToAdd = new Person(firstName, lastName, streetAddress, city, state, zip, phoneNumber);
             foreach (var person in _people)
             {
-                if(_people.Contains(person))
+                if(person.Equals(personToAdd))
                 {
                     Console.WriteLine("Person already exists in your Address Book");
-                    return false;
+                    return;
                 }
             }
 
             _people.Add(personToAdd);
-            System.IO.File.AppendAllText(fileURL, personToAdd.ToString() + Environment.NewLine);
-            return true;
+        }
+
+        public void WriteToFile()
+        {
+            foreach(var person in _people)
+                System.IO.File.AppendAllText(fileURL, person.ToString() + Environment.NewLine);
         }
 
         public void RemovePerson()
@@ -230,7 +234,6 @@ namespace AddressBook
                 foreach(var option in options)
                     Console.WriteLine(option);
                 string input = Console.ReadLine();
-                string toContinue = "";
                 switch(input)
                 {
                     default:
@@ -238,41 +241,39 @@ namespace AddressBook
                         Console.Write("Enter the new first name: ");
                         string firstName = Console.ReadLine();
                         person.FirstName = firstName;
-                        Console.Write("First name updated. Would you like to change any more information? (Y/N) ");
-                        toContinue = Console.ReadLine().ToUpper();
-                        if (toContinue == "N")
-                            done = true;
+                        done = ToContinue("First name");
                         break;
                     case "2":
                         Console.Write("Enter the new last name: ");
                         string lastName = Console.ReadLine();
                         person.LastName = lastName;
                         Console.Write("Last name updated. Would you like to change any more information? (Y/N) ");
-                        toContinue = Console.ReadLine().ToUpper();
-                        if (toContinue == "N")
-                            done = true;
+                        done = ToContinue("Last name");
                         break;
                     case "3":
                         Console.Write("Enter the new address: ");
                         string address = Console.ReadLine();
                         person.Address = address;
-                        Console.Write("Address updated. Would you like to change any more information? (Y/N) ");
-                        toContinue = Console.ReadLine().ToUpper();
-                        if (toContinue == "N")
-                            done = true;
+                        done = ToContinue("Address");
                         break;
                     case "4":
                         Console.Write("Enter the new phone number: ");
                         string phoneNumber = Console.ReadLine();
                         person.PhoneNumber = phoneNumber;
-                        Console.Write("Phone number updated. Would you like to change any more information? (Y/N) ");
-                        toContinue = Console.ReadLine().ToUpper();
-                        if (toContinue == "N")
-                            done = true;
+                        done = ToContinue("Phone number");
                         break;
                 }
             }
             return true;
+        }
+        private bool ToContinue(string updateParameter)
+        {
+            bool done = false;
+            Console.Write("{0} updated. Would you like to change any more information? (Y/N) ", updateParameter);
+            string toContinue = Console.ReadLine().ToUpper();
+            if (toContinue == "N")
+                done = true;
+            return done;
         }
     }
 }

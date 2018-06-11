@@ -44,6 +44,7 @@ namespace AddressBook
                         _addressBook.UpdatePerson();
                         break;
                     case "5":
+                        _addressBook.WriteToFile();
                         Console.WriteLine("--- Thank you for using the Address Book App. ---");
                         finished = true;
                         break;
