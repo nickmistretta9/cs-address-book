@@ -19,6 +19,7 @@ namespace AddressBook
         }
         public void Run()
         {
+            _addressBook.ReadFromFile();
             bool finished = false;
             Console.WriteLine("--- Welcome to the Address Book App. Please choose from the options below to get started! ---");
             while(!finished)
@@ -31,6 +32,7 @@ namespace AddressBook
                 {
                     default:
                     case "1":
+                        _addressBook.ReadFullBook();
                         break;
                     case "2":
                         _addressBook.AddPerson();

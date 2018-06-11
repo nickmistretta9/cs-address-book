@@ -63,10 +63,20 @@ namespace AddressBook
             }
         }
 
+        public void ReadFullBook()
+        {
+            foreach(var person in _people)
+                Console.WriteLine(person);
+        }
+
         public void UpdatePerson()
         {
             Person personToUpdate = FindPerson();
-            UpdatePersonInfo(personToUpdate);
+            var successful = UpdatePersonInfo(personToUpdate);
+            if(successful)
+                Console.WriteLine("Successfully updated {0} {1}", personToUpdate.FirstName, personToUpdate.LastName);
+            else
+                Console.WriteLine("Something went wrong updating {0} {1}. Please try again", personToUpdate.FirstName, personToUpdate.LastName);
         }
 
         private Person FindPerson()
@@ -206,6 +216,62 @@ namespace AddressBook
 
         private bool UpdatePersonInfo(Person person)
         {
+            var done = false;
+            while(!done)
+            {
+                List<string> options = new List<string>()
+                {
+                    "1) Update first name",
+                    "2) Update last name",
+                    "3) Update address",
+                    "4) Update phone number"
+                };
+                Console.WriteLine("What would you like to update?");
+                foreach(var option in options)
+                    Console.WriteLine(option);
+                string input = Console.ReadLine();
+                string toContinue = "";
+                switch(input)
+                {
+                    default:
+                    case "1":
+                        Console.Write("Enter the new first name: ");
+                        string firstName = Console.ReadLine();
+                        person.FirstName = firstName;
+                        Console.Write("First name updated. Would you like to change any more information? (Y/N) ");
+                        toContinue = Console.ReadLine().ToUpper();
+                        if (toContinue == "N")
+                            done = true;
+                        break;
+                    case "2":
+                        Console.Write("Enter the new last name: ");
+                        string lastName = Console.ReadLine();
+                        person.LastName = lastName;
+                        Console.Write("Last name updated. Would you like to change any more information? (Y/N) ");
+                        toContinue = Console.ReadLine().ToUpper();
+                        if (toContinue == "N")
+                            done = true;
+                        break;
+                    case "3":
+                        Console.Write("Enter the new address: ");
+                        string address = Console.ReadLine();
+                        person.Address = address;
+                        Console.Write("Address updated. Would you like to change any more information? (Y/N) ");
+                        toContinue = Console.ReadLine().ToUpper();
+                        if (toContinue == "N")
+                            done = true;
+                        break;
+                    case "4":
+                        Console.Write("Enter the new phone number: ");
+                        string phoneNumber = Console.ReadLine();
+                        person.PhoneNumber = phoneNumber;
+                        Console.Write("Phone number updated. Would you like to change any more information? (Y/N) ");
+                        toContinue = Console.ReadLine().ToUpper();
+                        if (toContinue == "N")
+                            done = true;
+                        break;
+                }
+            }
             return true;
         }
     }
