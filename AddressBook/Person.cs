@@ -22,7 +22,7 @@
 
         public override string ToString()
         {
-            return ID + ") " + LastName + ", " + FirstName + " | " + Address + " | " + PhoneNumber;
+            return LastName + ", " + FirstName + " | " + Address + " | " + PhoneNumber;
         }
     }
 }

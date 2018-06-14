@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace AddressBook
 {
     public class AddressBook
     {
-        const string fileURL = @"C:\Users\Nick\Desktop\C# Programs\AddressBook\AddressBook\bin\addresses.txt";
+        const string fileURL = @"C:\Users\Nicholas Mistretta\Desktop\C#\Address Book\AddressBook\bin\addresses.txt";
         private List<Person> _people;
 
         public AddressBook()
@@ -16,7 +17,7 @@ namespace AddressBook
 
         public void ReadFromFile()
         {
-            string[] people = System.IO.File.ReadAllLines(fileURL);
+            string[] people = File.ReadAllLines(fileURL);
             foreach (var person in people)
             {
                 _people.Add(ParsePersonInfo(person));
@@ -54,8 +55,27 @@ namespace AddressBook
 
         public void WriteToFile()
         {
-            foreach(var person in _people)
-                System.IO.File.AppendAllText(fileURL, person.ToString() + Environment.NewLine);
+            foreach (var person in _people)
+            {
+                bool canAdd = IsNotInFile(person);
+                File.AppendAllText(fileURL, person.ToString() + Environment.NewLine);
+            }
+        }
+
+        private bool IsNotInFile(Person person)
+        {
+            // Check each line of file
+            // Compare to the person trying to be added
+            // Return true if comparison is not equal, false if they are equal
+            // Only write to line if person does not already exist (not equal)
+            string[] people = File.ReadAllLines(fileURL);
+            foreach(var personToCheck in people)
+            {
+                Person personFromFile = ParsePersonInfo(personToCheck);
+                if(person.Equals(personToCheck))
+                    return false;
+            }
+            return true;
         }
 
         public void RemovePerson()
@@ -69,8 +89,19 @@ namespace AddressBook
 
         public void ReadFullBook()
         {
-            foreach(var person in _people)
-                Console.WriteLine(person);
+            Console.WriteLine("----------------------------");
+            if (_people.Count == 0)
+                Console.WriteLine("No one in the address book yet.");
+            else
+            {
+                var count = 1;
+                foreach (var person in _people)
+                {
+                    Console.WriteLine("{0}) {1}", count, person);
+                    count++;
+                }
+            }
+            Console.WriteLine("----------------------------");
         }
 
         public void UpdatePerson()
