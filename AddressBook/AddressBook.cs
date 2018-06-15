@@ -7,7 +7,7 @@ namespace AddressBook
 {
     public class AddressBook
     {
-        const string fileURL = @"C:\Users\Nicholas Mistretta\Desktop\C#\Address Book\AddressBook\bin\addresses.txt";
+        const string fileURL = @"C:\Users\Nick\Desktop\C# Programs\AddressBook\AddressBook\bin\addresses.txt";
         private List<Person> _people;
 
         public AddressBook()
@@ -58,7 +58,10 @@ namespace AddressBook
             foreach (var person in _people)
             {
                 bool canAdd = IsNotInFile(person);
-                File.AppendAllText(fileURL, person.ToString() + Environment.NewLine);
+                if(canAdd)
+                {
+                    File.AppendAllText(fileURL, person.ToString() + Environment.NewLine);
+                }
             }
         }
 
